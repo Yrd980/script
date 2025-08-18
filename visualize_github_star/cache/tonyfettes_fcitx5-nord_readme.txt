@@ -1,0 +1,1 @@
+fcitx5-nord Fcitx5 theme based on Nord color. Screenshot !Dark Variant !Light Variant Usage Installation Enabling In , change the line as Then restart fcitx5 to apply the theme.

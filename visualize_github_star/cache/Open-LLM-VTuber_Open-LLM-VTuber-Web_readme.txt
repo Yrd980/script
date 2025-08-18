@@ -1,0 +1,1 @@
+Open LLM Vtuber An Electron application with React and TypeScript Recommended IDE Setup - VSCode + ESLint + Prettier Project Setup Install Development Build

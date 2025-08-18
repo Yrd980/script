@@ -1,0 +1,1 @@
+Bukkit ====== A Minecraft Server API. Website: http://bukkit.org Bugs/Suggestions: http://leaky.bukkit.org Contributing Guidelines: CONTRIBUTING.md Compilation ----------- We use maven to handle our dependencies. Install Maven 3 Check out this repo and:

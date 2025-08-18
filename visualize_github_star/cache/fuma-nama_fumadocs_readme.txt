@@ -1,0 +1,1 @@
+!banner The framework for building documentation websites in Next.js or other React.js frameworks. 📘 Learn More: Documentation. Compatibility All packages are ESM only. Sticker !logo Welcome to print it out :D Contributions Make sure to read the Contributing Guide before submitting a pull request.

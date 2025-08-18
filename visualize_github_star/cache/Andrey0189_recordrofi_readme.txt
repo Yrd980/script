@@ -1,0 +1,1 @@
+Rofi recording script Record your screen, desktop audio and microphone input at the same time Changing microphone If the default microphone source doesn't work for you, then execute the following command: Find your microphone there and change variable in the script. Installation Have fun!

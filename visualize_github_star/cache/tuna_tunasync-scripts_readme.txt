@@ -1,0 +1,1 @@
+tunasync-scripts Custom scripts for mirror jobs LICENCE Note is taken as-is from taoky/shadowmire. It is licensed under Apache License.

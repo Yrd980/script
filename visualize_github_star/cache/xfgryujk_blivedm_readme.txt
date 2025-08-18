@@ -1,0 +1,1 @@
+blivedm Python获取bilibili直播弹幕的库，使用WebSocket协议，支持web端和B站直播开放平台两种接口 协议解释 基于本库开发的一个应用：blivechat 使用说明 1. 需要Python 3.8及以上版本 2. 安装依赖 3. web端例程在sample.py，B站直播开放平台例程在openlivesample.py

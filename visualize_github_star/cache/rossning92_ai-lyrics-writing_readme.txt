@@ -1,0 +1,1 @@
+!./img/screenshot.jpg 注：很基本的 RNN 模型，预测效果一般，仅作为学习使用！ 安装关联 - PyTorch: 请根据你的环境选择对应的版本安装 https://pytorch.org/ - Tensorboard: - NumPy: 训练 & 使用模型预测 在命令行中输入 ，根据提示训练或者使用模型做预测。 使用 Tensorboard 查看训练进度 开启一个新的控制台，输入

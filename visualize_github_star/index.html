@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Starred Repositories</title>
+    <style>
+        :root {
+            --primary-color: #2f81f7;
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --card-bg: #161b22;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        input, select {
+            padding: 8px 12px;
+            background: var(--card-bg);
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: var(--text-color);
+        }
+
+        .repo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .repo-card {
+            background: var(--card-bg);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 16px;
+            transition: transform 0.2s;
+        }
+
+        .repo-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .repo-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .owner-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+
+        .repo-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 12px;
+            color: #8b949e;
+            font-size: 0.9em;
+        }
+
+        .repo-language {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .language-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .repo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⭐ My Starred Repositories</h1>
+        
+        <div class="filters">
+            <input type="text" id="search" placeholder="Search repositories..." />
+            <select id="language-filter">
+                <option value="">All Languages</option>
+            </select>
+            <select id="sort">
+                <option value="stars">Sort by Stars</option>
+                <option value="updated">Sort by Updated</option>
+            </select>
+        </div>
+
+        <div class="repo-grid" id="repo-container"></div>
+    </div>
+
+    <script>
+        // 颜色映射（可根据需要扩展）
+        const LANGUAGE_COLORS = {
+            'JavaScript': '#f1e05a',
+            'Python': '#3572A5',
+            'HTML': '#e34c26',
+            'CSS': '#563d7c',
+            'TypeScript': '#3178c6',
+            'Java': '#b07219',
+            'C++': '#f34b7d',
+        };
+
+        async function loadRepositories() {
+            try {
+                const response = await fetch('starred_repos.json');
+                const repos = await response.json();
+                console.log('Loaded repositories:', repos);
+                
+                // 初始化筛选器
+                initFilters(repos);
+                renderRepositories(repos);
+                setupEventListeners(repos);
+            } catch (error) {
+                console.error('Error loading repositories:', error);
+                alert('Failed to load repository data');
+            }
+        }
+
+        function initFilters(repos) {
+            // 初始化语言筛选选项
+            const languages = [...new Set(repos.map(r => r.language).filter(Boolean))];
+            const languageFilter = document.getElementById('language-filter');
+            
+            languages.forEach(lang => {
+                const option = document.createElement('option');
+                option.value = lang;
+                option.textContent = lang;
+                languageFilter.appendChild(option);
+            });
+        }
+
+        function renderRepositories(repos) {
+            const container = document.getElementById('repo-container');
+            container.innerHTML = '';
+
+            repos.forEach(repo => {
+                const card = document.createElement('div');
+                card.className = 'repo-card';
+                
+                card.innerHTML = `
+                    <div class="repo-header">
+                        <img src="${repo.owner.avatar_url}" 
+                             class="owner-avatar" 
+                             alt="${repo.owner.login} avatar">
+                        <div>
+                            <h3><a href="${repo.html_url}" target="_blank">${repo.full_name}</a></h3>
+                            ${repo.description ? `<p>${repo.description}</p>` : ''}
+                        </div>
+                    </div>
+                    <div class="repo-stats">
+                        ${repo.language ? `
+                            <div class="repo-language">
+                                <span class="language-color" 
+                                      style="background: ${LANGUAGE_COLORS[repo.language] || '#ccc'}"></span>
+                                ${repo.language}
+                            </div>
+                        ` : ''}
+                        <div>⭐ ${repo.stargazers_count}</div>
+                        <div>📅 ${new Date(repo.updated_at).toLocaleDateString()}</div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function setupEventListeners(originalRepos) {
+            const searchInput = document.getElementById('search');
+            const languageFilter = document.getElementById('language-filter');
+            const sortSelect = document.getElementById('sort');
+
+            function updateDisplay() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const selectedLanguage = languageFilter.value;
+                const sortKey = sortSelect.value;
+
+                let filtered = originalRepos.filter(repo => {
+                    const matchesSearch = repo.name.toLowerCase().includes(searchTerm) || 
+                                        repo.description?.toLowerCase().includes(searchTerm);
+                    const matchesLanguage = !selectedLanguage || repo.language === selectedLanguage;
+                    return matchesSearch && matchesLanguage;
+                });
+
+                // 排序逻辑
+                filtered.sort((a, b) => {
+                    if (sortKey === 'stars') return b.stargazers_count - a.stargazers_count;
+                    if (sortKey === 'updated') return new Date(b.updated_at) - new Date(a.updated_at);
+                    return 0;
+                });
+
+                renderRepositories(filtered);
+            }
+
+            searchInput.addEventListener('input', updateDisplay);
+            languageFilter.addEventListener('change', updateDisplay);
+            sortSelect.addEventListener('change', updateDisplay);
+        }
+
+        // 初始化加载
+        loadRepositories();
+    </script>
+</body>
+</html>

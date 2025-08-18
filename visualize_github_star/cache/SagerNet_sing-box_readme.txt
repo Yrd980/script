@@ -1,0 +1,1 @@
+sing-box The universal proxy platform. !Packaging statushttps://repology.org/project/sing-box/versions Documentation https://sing-box.sagernet.org License

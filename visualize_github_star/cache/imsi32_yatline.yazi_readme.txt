@@ -1,0 +1,1 @@
+yatline.yazi The first Yazi plugin for customizing both header-line and status-line. !yatline > !NOTE > Check out wiki for installation steps, configuration and further information. Features - Lualine-like Design - Flexible - Simple - Automatic Configuration - Themes See: yatline-themes - Add-ons See: yatline-addons Credits - Lualine - Yazi

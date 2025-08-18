@@ -1,0 +1,1 @@
+This is derived work from alpmutils code, written by Guillaume Benoit. You'll need Vala compiler in order to build this library! Steps for compilation:

@@ -1,0 +1,1 @@
+<p align="center"><img width="50%" src="https://github.com/ljmill/catppuccin-icons/blob/main/assets/main.svg"/></p> Installation Download archive from Releases and extract into or Applying Set the in : or use a GTK theme manager such as lxappearance.
